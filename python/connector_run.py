@@ -6,13 +6,13 @@ from connectors.jsonplaceholder_connector import JsonPlaceholderConnector
 load_dotenv() # Loads DATABASE_URL form .env
 
 def init_db(conn):
-    with conn.cursor() as cursor:
+    with conn.cursor() as cur:
         cur.execute("""
         CREATE TABLE IF NOT EXISTS records (
             source TEXT,
             record_id INTEGER,
             payload JSONB,
-            fetched_at TIMESTAMPZ DEFAULT NOW()
+            fetched_at TIMESTAMPTZ DEFAULT NOW()
         );
         """)
         conn.commit()
