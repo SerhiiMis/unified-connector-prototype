@@ -1,7 +1,8 @@
 import os
 import psycopg2
+from psycopg2.extras import Json
 from dotenv import load_dotenv
-from connectors.jsonplaceholder_connector import JsonPlaceholderConnector
+from connectors.jsonplaceholder_connector import  JSONPlaceholderConnector
 
 load_dotenv() # Loads DATABASE_URL form .env
 
@@ -17,17 +18,18 @@ def init_db(conn):
         """)
         conn.commit()
 
+
 def insert_records(conn, records):
     with conn.cursor() as cur:
         for rec in records:
             cur.execute(
                 "INSERT INTO records (source, record_id, payload) VALUES (%s, %s, %s)",
-                (rec["source"], rec["record_id"], rec["payload"])
+                (rec["source"], rec["record_id"], Json(rec["payload"]))
             )
-        conn.commit()
+    conn.commit()
 
 def main():
-    connector = JsonPlaceholderConnector()
+    connector =  JSONPlaceholderConnector()
     raw = connector.fetch()
     normalized = connector.normalize(raw)
 

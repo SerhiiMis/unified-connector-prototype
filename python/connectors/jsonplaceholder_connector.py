@@ -1,7 +1,7 @@
 import requests 
 from .base import Connector
 
-class JsonPlaceholderConnector(Connector):
+class JSONPlaceholderConnector(Connector):
     """Fetches /posts from JSONPlaceholder for demo purposes."""
 
     API_URL = "https://jsonplaceholder.typicode.com/posts"
@@ -15,7 +15,7 @@ class JsonPlaceholderConnector(Connector):
         # Map into our unified schema fields: source, record_id, payload
         return [
             {
-                "sorce": "jsonplaceholder",
+                "source": "jsonplaceholder",
                 "record_id": item["id"],
                 "payload": item
                 }
