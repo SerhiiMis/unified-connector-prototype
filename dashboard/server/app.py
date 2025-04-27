@@ -68,5 +68,21 @@ def trigger_run():
 
     return jsonify({"status": "started", "connector": name}), 202
 
+@app.route("/summary", methods=["GET"])
+def latest_summary():
+    conn = get_db_conn()
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        cur.execute(
+            "SELECT summary, created_at "
+            "FROM run_summaries "
+            "ORDER BY created_at DESC "
+            "LIMIT 1;"
+        )
+        row = cur.fetchone()
+    conn.close()
+    if not row:
+        return jsonify({"summary": "", "created_at": None}), 200
+    return jsonify(row), 200
+
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
