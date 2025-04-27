@@ -13,14 +13,16 @@ load_dotenv() # Loads DATABASE_URL form .env
 
 def init_db(conn):
     with conn.cursor() as cur:
+        # existing records table
         cur.execute("""
         CREATE TABLE IF NOT EXISTS records (
-          source TEXT,
-          record_id INTEGER,
-          payload JSONB,
+          source     TEXT,
+          record_id  INTEGER,
+          payload    JSONB,
           fetched_at TIMESTAMPTZ DEFAULT NOW()
         );
         """)
+        # existing run_logs table
         cur.execute("""
         CREATE TABLE IF NOT EXISTS run_logs (
           id          SERIAL PRIMARY KEY,
@@ -29,6 +31,14 @@ def init_db(conn):
           started_at  TIMESTAMPTZ NOT NULL,
           finished_at TIMESTAMPTZ NOT NULL,
           message     TEXT
+        );
+        """)
+        # **new** summaries table
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS run_summaries (
+          id         SERIAL PRIMARY KEY,
+          summary    TEXT    NOT NULL,
+          created_at TIMESTAMPTZ DEFAULT NOW()
         );
         """)
         conn.commit()
