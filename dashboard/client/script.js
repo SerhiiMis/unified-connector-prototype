@@ -33,6 +33,19 @@ async function trigger(connector) {
   setTimeout(fetchRuns, 1000);
 }
 
+async function fetchSummary() {
+  const res = await fetch("http://127.0.0.1:5000/summary");
+  const data = await res.json();
+  document.getElementById("summary-text").textContent =
+    data.summary || "No summary available";
+}
+
+// In window.onload:
+window.onload = () => {
+  fetchRuns();
+  fetchSummary();
+};
+
 // Setup
 document.getElementById("run-json").onclick = () => trigger("jsonplaceholder");
 document.getElementById("run-binary").onclick = () => trigger("binarylog");
