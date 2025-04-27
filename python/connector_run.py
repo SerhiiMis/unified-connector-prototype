@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import psycopg2
 from psycopg2.extras import Json
@@ -43,27 +44,27 @@ def insert_records(conn, records):
     conn.commit()
 
 def run_binary_connector(conn):
-    # Path to the C++ binary you just built
-    bin_path = os.path.abspath(os.path.join("..", "cpp", "binary_log_reader"))
-    sample_file = os.path.abspath(os.path.join("..", "cpp", "sample_logs", "record.bin"))
+    # Compute project root from this file’s location
+    this_file = Path(__file__).resolve()
+    project_root = this_file.parent.parent  # one up from python/, i.e. repo root
 
-    # Invoke the C++ reader
+    bin_path = project_root / "cpp" / "binary_log_reader"
+    sample_file = project_root / "cpp" / "sample_logs" / "record.bin"
+
+    # Call the binary
     result = subprocess.run(
-        [bin_path, sample_file],
+        [str(bin_path), str(sample_file)],
         capture_output=True,
         text=True,
         check=True
     )
-    # Parse its JSON output
-    items = json.loads(result.stdout)
 
-    # Prepare records: use "binarylog" as the source
+    items = json.loads(result.stdout)
     records = [
         {"source": "binarylog", "record_id": rec["id"], "payload": rec}
         for rec in items
     ]
 
-    # Insert into the same records table
     with conn.cursor() as cur:
         for rec in records:
             cur.execute(
@@ -72,6 +73,7 @@ def run_binary_connector(conn):
             )
     conn.commit()
     print(f"Inserted {len(records)} binary-log records.")
+
 
 def run_with_logging(conn, name, func):
     """Run a connector function and log its outcome."""
