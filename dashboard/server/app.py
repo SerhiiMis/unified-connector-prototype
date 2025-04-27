@@ -8,15 +8,15 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 
-# 1) Make sure the top-level "python/" folder is on the path
+# The top-level "python/" folder is on the path
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root / "python"))
 
-# 2) Now import your runner utilities
+# Import the runner utilities
 from connector_run import run_with_logging, init_db, run_binary_connector, insert_records
 from connectors.jsonplaceholder_connector import JSONPlaceholderConnector
 
-# 3) Bootstrap environment & DB
+# Bootstrap environment & DB
 load_dotenv()
 def get_db_conn():
     return psycopg2.connect(os.getenv("DATABASE_URL"))
