@@ -1,13 +1,10 @@
-from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
-
 import os
 import sys
-from pathlib import Path
 import json
 import subprocess
+from pathlib import Path
 from flask import Flask, request, jsonify, abort
+from flask_cors import CORS
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
@@ -31,6 +28,7 @@ init_db(conn)
 conn.close()
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/runs", methods=["GET"])
 def list_runs():
