@@ -1,0 +1,89 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  background-color: #f5f7fa;
+  color: #333;
+}
+
+/* Header */
+h1 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+/* Summary card */
+#summary-container {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+#summary-container h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: #34495e;
+}
+#summary-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Buttons */
+button {
+  background-color: #3498db;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Table */
+#runs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+#runs-table th,
+#runs-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e1e4e8;
+}
+#runs-table th {
+  background-color: #ecf0f1;
+  font-weight: 600;
+}
+#runs-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+#runs-table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  body {
+    margin: 1rem;
+  }
+  #runs-table th,
+  #runs-table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
